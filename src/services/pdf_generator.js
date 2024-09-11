@@ -97,6 +97,11 @@ export default async function generatePDF() {
       width: width,
       height: height,
     });
+	
+	
+  
+	
+	
 
     const cpfAnnuities = netWorth.currentValueOfSpecialCPF;
     const equities = netWorth.valueOfStocks;
@@ -978,34 +983,34 @@ export default async function generatePDF() {
       y = drawText("who at his request in his presence and in the presence of each other have here unto subscribed", x, y);
       y = drawText("out names as witnesses.", x, y);
 
-      drawText("WITNESS", x, y, fontSize, true);
-      y = drawText("WITNESS", x + 250, y, fontSize, true);
+      // drawText("WITNESS", x, y, fontSize, true);
+      // y = drawText("WITNESS", x + 250, y, fontSize, true);
 
-      drawText("SIGNATURE ", x + 250, y);
-      drawText("_______________________", x + 350, y)
-      drawText("SIGNATURE ", x, y);
-      y = drawText("_______________________", x + 80, y)
+      // drawText("SIGNATURE ", x + 250, y);
+      // drawText("_______________________", x + 350, y)
+      // drawText("SIGNATURE ", x, y);
+      // y = drawText("_______________________", x + 80, y)
 
-      drawText("NAME ", x + 250, y);
-      drawText("_______________________", x + 350, y)
-      drawText("NAME ", x, y);
-      y = drawText("_______________________", x + 80, y)
+      // drawText("NAME ", x + 250, y);
+      // drawText("_______________________", x + 350, y)
+      // drawText("NAME ", x, y);
+      // y = drawText("_______________________", x + 80, y)
 
-      drawText("NRIC NO. ", x + 250, y);
-      drawText("_______________________", x + 350, y)
-      drawText("NRIC NO. ", x, y);
-      y = drawText("_______________________", x + 80, y)
+      // drawText("NRIC NO. ", x + 250, y);
+      // drawText("_______________________", x + 350, y)
+      // drawText("NRIC NO. ", x, y);
+      // y = drawText("_______________________", x + 80, y)
 
-      drawText("ADDRESS ", x + 250, y);
-      drawText("_______________________", x + 350, y)
-      drawText("ADDRESS ", x, y);
-      y = drawText("_______________________", x + 80, y)
+      // drawText("ADDRESS ", x + 250, y);
+      // drawText("_______________________", x + 350, y)
+      // drawText("ADDRESS ", x, y);
+      // y = drawText("_______________________", x + 80, y)
 
 
-      drawText("_______________________", x + 350, y)
-      y = drawText("_______________________", x + 80, y)
-      drawText("_______________________", x + 350, y)
-      y = drawText("_______________________", x + 80, y)
+      // drawText("_______________________", x + 350, y)
+      // y = drawText("_______________________", x + 80, y)
+      // drawText("_______________________", x + 350, y)
+      // y = drawText("_______________________", x + 80, y)
 
     };
 
@@ -1117,7 +1122,11 @@ export default async function generatePDF() {
     }
 
 
-    const drawInvestmentsRec = () => {
+	
+	var TermGoalGraphArray=[];
+	var ages=[];
+	var actualamountneed=[];
+     const drawInvestmentsRec = () => {
       
 	  debugger;
       const currentYear = new Date().getFullYear();
@@ -1136,7 +1145,7 @@ export default async function generatePDF() {
       console.log(goals)
       let results = [];
 
-      function calculateFutureValue(rate, nper, pmt, pv = 0, type = 0) {
+    function calculateFutureValue(rate, nper, pmt, pv = 0, type = 0) {
        // If rate is 0, the future value is simply the sum of present value and payments
         if (rate === 0) {
           return -(pv + pmt * nper);
@@ -1206,7 +1215,8 @@ export default async function generatePDF() {
       y = drawText(investmentsRec, `Short Term Goals`, x, y, 18, black, helveticaBold, 25);
 	  const  B25=((shortTermGoalsTotal - shortTermGoalsInflationAdjusted) > 0 ? parseFloat((shortTermGoalsTotal - shortTermGoalsInflationAdjusted)) : 0);
 
-      const text1 = `You have enough emergency savings With a surplus saving of ${surplusSaving > 0 ? parseFloat(surplusSaving.toFixed(2)).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get ${parseFloat(shortTermGoalsTotal.toFixed(2))} \nat a rate of ${(shortTermRate*100).toFixed(2).toLocaleString()}% per annum.`;
+      const text1 = `With a surplus saving of ${surplusSaving > 0 ? parseFloat(surplusSaving.toFixed(2)).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get ${parseFloat(shortTermGoalsTotal.toFixed(2))} \nat a rate of ${(shortTermRate*100).toFixed(2).toLocaleString()}% per annum.`;
+	  
       const stext2 = `You can successfully achieve your goals at $${B25} in surplus`
       const stext3 = `You are short of $${((shortTermGoalsTotal - shortTermGoalsInflationAdjusted) < 0 ? parseFloat((shortTermGoalsTotal - shortTermGoalsInflationAdjusted)).toLocaleString() : 0)} away from your goal.`
       y = drawText(investmentsRec, text1, x, y, 12, black, helvetica, 68);
@@ -1223,30 +1233,112 @@ export default async function generatePDF() {
 
 	  const midTermShortOF=(parseFloat(midTermGoalsTotal-midTermGoalsInflationAdjusted)<0) ? (parseFloat(midTermGoalsTotal-midTermGoalsInflationAdjusted)*-1) : 0;
       y = drawText(investmentsRec, `Mid Term Goals`, x, y-30, 18, black, helveticaBold, 25);
+	  
+	  let DynamicString=``;
+	  if(midTermShortOF<0){
+		  DynamicString=`You can successfully achieve your goals at $${D28.toFixed(2)} in surplus.`;
+	  }
+	  
+	  else {
+		  DynamicString=`You are short of $${midTermShortOF.toFixed(2)} away from your goal.`;
+	  }
 
-	  const text2 = `You have enough emergency savings With a surplus saving of ${B25 > 0 ? parseFloat(B25).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get $${parseFloat(midTermGoalsTotal).toFixed(2)} \nat a rate of dd ${(midTermRate*100).toFixed(2).toLocaleString()}% per annum. You can successfully achieve your goals at $${D28} in surplus \nOr\nYou are short of $${midTermShortOF} away from your goal.`;
+	  const text2 = `With a surplus saving of ${B25 > 0 ? parseFloat(B25).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get $${parseFloat(midTermGoalsTotal).toFixed(2)} \nat a rate of dd ${(midTermRate*100).toFixed(2).toLocaleString()}% per annum. ${DynamicString}`;
       y = drawText(investmentsRec, text2, x, y, 12, black, helvetica, 140);
 
       const longTermGoals = results.filter(result => result.goalType === 'longTermGoals')[0];
-	
+		
       const longTermGoalsInflationAdjusted = calculateFutureValue(0.03, MYearsToReach, 0, -(Number(goals.longTermGoals[0].amount)));
-
-	  const D37=(parseFloat(longTermGoals-longTermGoalsInflationAdjusted)>0) ? parseFloat(longTermGoals-longTermGoalsInflationAdjusted) : 0;
-	  const longTermShortOF=(parseFloat(longTermGoals-longTermGoalsInflationAdjusted)<0) ? (parseFloat(longTermGoals-longTermGoalsInflationAdjusted)*-1) : 0;
-
+	
+	
 
 	  console.log("netWorth  netWorth"+netWorth.valueOfUnitTrusts);
 	  const longTermGoalsTotal = calculateFutureValue(longTermRate, (LYearsToReach-MYearsToReach), -Number(surplusInflow), -Number(D28 > 0 ? parseFloat(D28.toFixed(2)) : 0))+ calculateFutureValue(0.07, LYearsToReach, 0, -Number(netWorth.valueOfStocks))+ calculateFutureValue(0.06, LYearsToReach, 0, -Number(netWorth.valueOfUnitTrusts));
-
+	  
+	  const D37=(parseFloat(longTermGoalsTotal-longTermGoalsInflationAdjusted)>0) ? parseFloat(longTermGoalsTotal-longTermGoalsInflationAdjusted) : 0;
+	  const longTermShortOF=(parseFloat(longTermGoalsTotal-longTermGoalsInflationAdjusted)<0) ? (parseFloat(longTermGoalsTotal-longTermGoalsInflationAdjusted)*-1) : 0;
+		
+	 
+	  if(longTermShortOF<0){
+		  DynamicString=`You can successfully achieve your goals at $${D37.toFixed(2)} in surplus.`;
+	  }
+	  
+	  else {
+		  DynamicString=`You are short of $${longTermShortOF.toFixed(2)} away from your goal.`;
+	  }
+	 		
+		
       y = drawText(investmentsRec, `Long Term Goals`, x, y, 18, black, helveticaBold, 25);
-      const text3 = `You have enough emergency savings With a surplus saving of ${D28 > 0 ? parseFloat(D28.toFixed(2)).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get $${parseFloat(longTermGoalsTotal.toFixed(2))} \nat a rate of ${(longTermRate*100).toFixed(2).toLocaleString()}% per annum. You can successfully achieve your goals at $${D37} in surplus \nOr\nYou are short of $${longTermShortOF} away from your goal.`;
+      const text3 = `With a surplus saving of $${D28 > 0 ? parseFloat(D28.toFixed(2)).toLocaleString() : 0} after deducting \nemergency savings, and surplus inflow of ${parseFloat(surplusInflow.toFixed(2)).toLocaleString()} per annum, You can get $${parseFloat(longTermGoalsTotal.toFixed(2))} \nat a rate of ${(longTermRate*100).toFixed(2).toLocaleString()}% per annum. ${DynamicString}`;
       y = drawText(investmentsRec, text3, x, y, 12, black, helvetica, 25);
 
+
+
+
+	  
+	  
+	  
+	
+		 function createRange(min, max, maxSteps = 8) {
+	  // Calculate the total range
+	  const totalRange = max - min;
+
+	  // Calculate the step size, rounding to the nearest whole number
+	  let stepSize = Math.round(totalRange / (maxSteps - 1));
+
+	  // Generate the range array
+	  const range = Array.from(
+		{ length: Math.min(maxSteps, Math.ceil(totalRange / stepSize) + 1) },
+		(_, index) => min + index * stepSize
+	  );
+
+	  // Ensure that the last value does not exceed the max
+	  if (range[range.length - 1] > max) {
+		range[range.length - 1] = max;
+	  }
+
+	  return range;
+	}	
+
+	
+	 ages=createRange(currentAge, currentAge+LYearsToReach,12);
+	
+	
+	actualamountneed=createRange(parseInt(goals.shortTermGoals[0].amount), parseInt(goals.longTermGoals[0].amount),12);
+	 
+	 
+		ages.forEach(function(value, index, array){
+			
+			const difference = value - array[0];
+			/* short term */
+			console.log("value"+value+"- difference"+difference+" - sYearsToReach " + sYearsToReach + "- MYearsToReach "+MYearsToReach + ", LYearsToReach"+LYearsToReach);
+			if(difference<=sYearsToReach){
+				
+		      let TermGoalsTotal = calculateFutureValue(shortTermRate, difference, -Number(surplusInflow), -Number(surplusSaving));
+		     
+			  TermGoalGraphArray.push(TermGoalsTotal);
+			}
+			else if(difference>sYearsToReach && difference<=MYearsToReach){
+			
+			let TermGoalsTotal = calculateFutureValue(midTermRate, (difference), -Number(surplusInflow), -Number(B25))+ calculateFutureValue(midTermRate, MYearsToReach, 0, -Number(netWorth.valueOfBonds))
+			
+			 TermGoalGraphArray.push(TermGoalsTotal)
+			}
+			else{
+				
+			 let TermGoalsTotal = calculateFutureValue(longTermRate, (difference), -Number(surplusInflow), -Number(D28 > 0 ? parseFloat(D28.toFixed(2)) : 0))+ calculateFutureValue(0.07, LYearsToReach, 0, -Number(netWorth.valueOfStocks))+ calculateFutureValue(0.06, value, 0, -Number(netWorth.valueOfUnitTrusts));
+			 TermGoalGraphArray.push(TermGoalsTotal)
+			}
+	
+	})
+	
+	    
 
 
     }
 
 
+console.log("TermGoalGraphArray",TermGoalGraphArray);
 
     drawPersonalInfo();
     drawGoals(shortTermPage, goals.shortTermGoals, 63, 615);
@@ -1264,6 +1356,149 @@ export default async function generatePDF() {
     drawInsuranceCalc();
     drawInvestmentsRec();
 
+
+
+console.log("TermGoalGraphArray",TermGoalGraphArray);
+
+console.log("actualamountneed",actualamountneed);
+
+	
+	const InvestmentGraph={
+			  "type": "line",
+			  "data": {
+				"labels": ages,
+				"datasets": [
+				  {
+					"label": "Trajectory",
+					"data":TermGoalGraphArray,
+					"fill": true,
+					"backgroundColor": "rgba(255, 204, 0, 0.5)",
+					"borderColor": "rgba(255, 204, 0, 1)",
+					"borderWidth": 2,
+					"pointBackgroundColor": "rgba(255, 204, 0, 1)"
+				  },
+				  {
+					"label": "Actual Amount Needed",
+					"data":actualamountneed,
+					"fill": true,
+					"backgroundColor": "rgba(0, 0, 0, 0.5)",
+					"borderColor": "rgba(0, 0, 0, 1)",
+					"borderWidth": 2,
+					"pointBackgroundColor": "rgba(0, 0, 0, 1)"
+				  }
+				]
+			  },
+			  "options": {
+				"scales": {
+				  "x": {
+					"title": {
+					  "display": true,
+					  "text": "Amount"
+					}
+				  },
+				  "y": {
+					"title": {
+					  "display": true,
+					  "text": "Age"
+					},
+					"min": 0,
+					"max": 100000
+				  }
+				},
+				"plugins": {
+				  "legend": {
+					"position": "top"
+				  },
+				  "tooltip": {
+					"callbacks": {
+					  "label": function(context) {
+						return context.dataset.label + ': ' + context.raw;
+					  }
+					}
+				  },
+				  "annotation": {
+					"annotations": {
+					  "box1": {
+						"type": "box",
+						"xMin": "33",
+						"xMax": "35",
+						"backgroundColor": "rgba(255, 204, 0, 0.1)",
+						"label": {
+						  "content": "12000",
+						  "enabled": true,
+						  "position": "start"
+						}
+					  },
+					  "box2": {
+						"type": "box",
+						"xMin": "35",
+						"xMax": "39",
+						"backgroundColor": "rgba(0, 0, 0, 0.1)",
+						"label": {
+						  "content": "30000",
+						  "enabled": true,
+						  "position": "start"
+						}
+					  },
+					  "box3": {
+						"type": "box",
+						"xMin": "39",
+						"xMax": "41",
+						"backgroundColor": "rgba(255, 204, 0, 0.1)",
+						"label": {
+						  "content": "60000",
+						  "enabled": true,
+						  "position": "start"
+						}
+					  },
+					  "box4": {
+						"type": "box",
+						"xMin": "43",
+						"xMax": "45",
+						"backgroundColor": "rgba(0, 0, 0, 0.1)",
+						"label": {
+						  "content": "45000",
+						  "enabled": true,
+						  "position": "start"
+						}
+					  },
+					  "box5": {
+						"type": "box",
+						"xMin": "45",
+						"xMax": "49",
+						"backgroundColor": "rgba(153, 102, 255, 0.1)",
+						"label": {
+						  "content": "100000",
+						  "enabled": true,
+						  "position": "start"
+						}
+					  }
+					}
+				  }
+				}
+			  }
+			};
+		const jsonString = JSON.stringify(InvestmentGraph);
+
+		// Encode URI component
+		const encodedUri = encodeURIComponent(jsonString);
+
+		console.log(encodedUri);
+		  const imageUrl2 = `https://quickchart.io/chart?v=2.9.4&c=`+encodedUri;
+			const chartImg2 = await fetch(imageUrl2).then((res) => res.arrayBuffer());
+
+			const chartImage2 = await pdfDoc.embedPng(chartImg2);
+
+			investmentsRec.drawImage(chartImage2, {
+			  x: 20,
+			  y: 50,
+			  width: 530,
+			  height: 250,
+			});
+		   /* end Investment calc */
+			
+	
+	
     const pdfBytes = await pdfDoc.save();
 
     // Create a Blob from the PDF bytes
